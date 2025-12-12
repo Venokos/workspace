@@ -1,0 +1,10 @@
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/uninstall.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/demo_cpp_pkg2_uninstall.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/ros2_node2.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/test.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/edit_cache.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/rebuild_cache.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/list_install_components.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/install.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/install/local.dir
+/home/venokos/workspace/build/demo_cpp_pkg2/CMakeFiles/install/strip.dir

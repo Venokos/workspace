@@ -1,0 +1,6 @@
+Invoking command in '/home/venokos/workspace/build/demo_cpp_pkg2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/venokos/workspace/src/demo_cpp_pkg2 -DCMAKE_INSTALL_PREFIX=/home/venokos/workspace/install/demo_cpp_pkg2
+Invoked command in '/home/venokos/workspace/build/demo_cpp_pkg2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake /home/venokos/workspace/src/demo_cpp_pkg2 -DCMAKE_INSTALL_PREFIX=/home/venokos/workspace/install/demo_cpp_pkg2
+Invoking command in '/home/venokos/workspace/build/demo_cpp_pkg2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/venokos/workspace/build/demo_cpp_pkg2 -- -j4 -l4
+Invoked command in '/home/venokos/workspace/build/demo_cpp_pkg2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --build /home/venokos/workspace/build/demo_cpp_pkg2 -- -j4 -l4
+Invoking command in '/home/venokos/workspace/build/demo_cpp_pkg2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/venokos/workspace/build/demo_cpp_pkg2
+Invoked command in '/home/venokos/workspace/build/demo_cpp_pkg2' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/humble /usr/bin/cmake --install /home/venokos/workspace/build/demo_cpp_pkg2

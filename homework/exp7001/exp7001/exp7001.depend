@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1765527253 source:/home/venokos/workspace/homework/exp7001/exp7001/main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<windows.h>
+	<unistd.h>
+
