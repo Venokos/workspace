@@ -79,6 +79,34 @@ int findElem(SeqList *L, ElemType e) {
     return 0;
 }
 
+// 释放内存
+void freeList(SeqList *L) {
+    // free(L); // 不可以直接释放结构体！会导致内存泄漏（数组也占用了内存）
+    if (L != NULL) {
+        // 先释放数组内存
+        if (L->data != NULL) {
+            free(L->data);
+            L->data = NULL; // 避免悬空指针
+        }
+        // 再释放结构体内存
+        free(L);
+        // L = NULL;  // 无效：L传入的是指针的副本
+        // 还需要调用者自己把指针置NULL，否则freeList()调用后会变成野指针！
+    }
+}
+// 释放内存（优化）
+void freeList2(SeqList **L) {
+    if (L != NULL && *L != NULL) {
+        // 先释放数组内存
+        if ((*L)->data != NULL) {
+            free((*L)->data);
+            (*L)->data = NULL;
+        }
+        // 再释放结构体内存
+        free(*L);
+        *L = NULL; // 可以把调用者传入的指针置NULL
+    }
+}
 
 int main() {
     SeqList* list = initList();
@@ -100,6 +128,8 @@ int main() {
 
     int find = 46;
     printf("找到元素:%d,位于位置:%d\n", find, findElem(list, find));
+
+    freeList2(&list);
 
     return 0;
 }
