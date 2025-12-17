@@ -1,18 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAX_SIZE 100
 
 typedef int ElemType; // 方便后续修改元素数据类型 （高内聚 低耦合）
 
+// 利用动态内存分配，在堆上 为 结构体和其中的数组创建空间
+
 typedef struct {
-    ElemType data[MAX_SIZE];
+    ElemType *data;
     int length;
 }SeqList;
 
-// 初始化
-void initList(SeqList* list) {
-    list->length = 0;
+// 初始化：在函数体内创建结构体，并返回指向该结构体的指针
+SeqList* initList() {
+    SeqList* L  = (SeqList*)malloc(sizeof(SeqList)); // 在堆上开辟结构体
+    L->data = (ElemType*)malloc(sizeof(ElemType) * MAX_SIZE); // 在堆上开辟数组
+    L->length = 0;
+    return L;  
 }
+
 // 尾部插入元素
 int appendElem(SeqList* L, ElemType e) {
     if (L->length >= MAX_SIZE) {
@@ -74,42 +81,25 @@ int findElem(SeqList *L, ElemType e) {
 
 
 int main() {
-    SeqList list;
-    initList(&list);
-    printf("初始化顺序表成功，当前顺序表长度:%d\n", list.length);
-    printf("顺序表内存占用:%zu\n", sizeof(list.data));
-    appendElem(&list, 40);
-    appendElem(&list, 42);
-    appendElem(&list, 46);
-    appendElem(&list, 57);
-    printList(&list);
+    SeqList* list = initList();
+    printf("初始化顺序表成功，当前顺序表长度:%d\n", list->length);
+    printf("顺序表内存占用:%zu\n", sizeof(list->data));
+    appendElem(list, 40);
+    appendElem(list, 42);
+    appendElem(list, 46);
+    appendElem(list, 57);
+    printList(list);
 
-    insertElem(&list, 2, 88);
-    printList(&list);
+    insertElem(list, 2, 88);
+    printList(list);
 
     ElemType deleted;
-    deleteElem(&list, 2, &deleted);
-    printList(&list);
+    deleteElem(list, 2, &deleted);
+    printList(list);
     printf("被删除数据:%d\n", deleted);
 
-    int ret = findElem(&list, 40);
-    if (ret) {
-        printf("找到元素位于位置:%d\n", ret);
-    }
-    else {
-        printf("未找到元素！\n");
-    }
-    ret = findElem(&list, 89);
-    if (ret) {
-        printf("找到元素位于位置:%d\n", ret);
-    }
-    else {
-        printf("未找到元素！\n");
-    }
-
-
-
-
+    int find = 46;
+    printf("找到元素:%d,位于位置:%d\n", find, findElem(list, find));
 
     return 0;
 }
