@@ -1,1 +1,3 @@
-1. ForElise	- Beethoven	(musics.ForElise.mp3)
+ForElise,Beethoven,musics/ForElise.mp3
+Canon,Pachelbel,musics/Canon.mp3
+fuze,Skrillex&isoxo,musics/fuze.mp3

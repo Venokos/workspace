@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1763647321 source:/home/venokos/workspace/homework/homework1001/main.c
+	<stdio.h>
+	<stdlib.h>
+
