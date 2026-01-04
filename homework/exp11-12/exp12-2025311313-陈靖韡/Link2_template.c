@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 // 歌曲节点结构体
 typedef struct Song {
@@ -269,18 +270,142 @@ void previous_song(PlaylistManager* manager) {
 
 // 9. 随机播放歌曲（非必须）
 int play_song_random(PlaylistManager* manager) {
+    // 设置随机数种子（使用当前时间）
+    srand(time(NULL));
+    // 生成0~(song_count-1)的随机整数
+    int random_num = rand() % manager->song_count;
+    manager->current = manager->head;
+    int i = 0;
+    while (i < random_num) {
+        i++;
+        manager->current = manager->current->next;
+    }
+    if (manager->current == NULL) {
+        printf("Error!\n");
+        return -1;
+    }
+    play_audio(manager->current->filepath);
     return 0;
 }
 
-// 10. 在指定位置插入歌曲（非必须）
+// 10. 在指定位置插入歌曲（非必须）  成功返回1,否则返回-1
 int insert_song_at(PlaylistManager* manager, int position, const char* title, 
                    const char* artist, const char* filepath) {
+    if (position <= 0) {
+        printf("Wrong position!\n");
+        return -1;
+    }
+    
+    Song* newSong = (Song*)malloc(sizeof(Song));
+    if (newSong == NULL) {
+        printf("内存分配失败！\n");
+        exit(-1);
+    }
+    Song* temp = manager->head;
+    strcpy(newSong->title, title);
+    strcpy(newSong->artist, artist);
+    strcpy(newSong->filepath, filepath);
+    newSong->prev = NULL;
+    newSong->next = NULL;
+    // 如果是空链表
+    if (manager->song_count == 0) {
+        if (position == 1) {
+            add_song(manager, title, artist, filepath);
+            // 修改歌曲id
+            temp = manager->head->next;
+            while (temp != NULL) {
+                temp->id++;
+                temp = temp->next;
+            }
+        }
+        else {
+            printf("Wrong position!\n");
+            return -1;
+        }
+    }
+    // 如果不是空链表且插入在第一个
+    else if (position == 1) {
+        newSong->next = manager->head;
+        manager->head = newSong;
+        newSong->prev = NULL;
+        newSong->id = 1;
+        manager->song_count++;
+        // 修改歌曲id
+        temp = manager->head->next;
+        while (temp != NULL) {
+            temp->id++;
+            temp = temp->next;
+        }
+    }
+    // 其他一般情况
+    else {
+        Song* temp = manager->head;
+        // 找到待插入位置的前驱
+        int i = 1;
+        while (i < position - 1) {
+            temp = temp->next;
+            i++;
+            if (temp == NULL) {
+                printf("Wrong position!\n");
+                return -1;
+            }
+        }
+        newSong->id = position;
+
+        newSong->next = temp->next;
+        temp->next->prev = newSong;
+        temp->next = newSong;
+        newSong->prev = temp;
+
+        manager->song_count++;
+        // 修改歌曲id
+        temp = newSong->next;
+        while (temp != NULL) {
+            temp->id++;
+            temp = temp->next;
+        }
+    }
     return 1;
 }
 
-// 12. 按歌曲名排序（非必须）
+// 12. 按歌曲名排序（非必须）   只需要交换数据！！
 void sort_by_title(PlaylistManager* manager) {
-    return;
+    if (manager->head == NULL || manager->head->next == NULL) {
+        printf("List is empty or has only one song.\n");
+        return;
+    }
+    Song* p1 = manager->head;
+    Song* p2 = p1->next;
+    int i = 0, j = 0;  
+    while (i < manager->song_count) {
+        int swap = 0;
+        i++;
+        while (j < manager->song_count - i) {
+            j++;
+            char title[100];
+            char artist[50];
+            char filepath[300]; 
+
+            if (strcmp(p1->title, p2->title) > 0) {
+                strcpy(title, p1->title);
+                strcpy(artist, p1->artist);
+                strcpy(filepath, p1->filepath);
+
+                strcpy(p1->title, p2->title);
+                strcpy(p1->artist, p2->artist);
+                strcpy(p1->filepath, p2->filepath);
+
+                strcpy(p2->title, title);
+                strcpy(p2->artist, artist);
+                strcpy(p2->filepath, filepath);
+                swap = 1;
+            }
+            p1 = p2;
+            p2 = p2->next;
+        }
+        if (!swap) break;
+    }
+    
 }
 
 // 清空播放列表函数

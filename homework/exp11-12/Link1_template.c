@@ -251,6 +251,75 @@ int play_song_random(PlaylistManager* manager) {
 // 7. 在指定位置插入歌曲（非必须）
 int insert_song_at(PlaylistManager* manager, int position, const char* title, 
                    const char* artist, const char* filepath) {
+    if (position <= 0) {
+        printf("Wrong position!\n");
+        return -1;
+    }
+    
+    Song* newSong = (Song*)malloc(sizeof(Song));
+    Song* prior = NULL;
+    Song* temp = manager->head;
+    if (newSong == NULL) {
+        printf("内存分配失败！\n");
+        exit(-1);
+    }
+    strcpy(newSong->title, title);
+    strcpy(newSong->artist, artist);
+    strcpy(newSong->filepath, filepath);
+    newSong->next = NULL;
+    // 如果是空链表
+    if (manager->song_count == 0) {
+        if (position == 1) {
+            add_song(manager, title, artist, filepath);
+            // 修改歌曲id
+            temp = manager->head->next;
+            while (temp != NULL) {
+                temp->id++;
+                temp = temp->next;
+            }
+        }
+        else {
+            printf("Wrong position!\n");
+            return -1;
+        }
+    }
+    // 如果不是空链表且插入在第一个
+    else if (position == 1) {
+        newSong->next = manager->head;
+        manager->head = newSong;
+        newSong->id = 1;
+        manager->song_count++;
+        // 修改歌曲id
+        temp = manager->head->next;
+        while (temp != NULL) {
+            temp->id++;
+            temp = temp->next;
+        }
+    }
+    // 其他一般情况
+    else {
+        int i = 1;
+        prior = manager->head;
+        while (i < position - 1) {      
+            prior = prior->next;
+            i++;
+            if (prior == NULL) {
+                printf("Wrong position!\n");
+                return -1;
+            }
+        }
+        newSong->next = prior->next;
+        prior->next = newSong;  
+
+        newSong->id = position;
+        manager->song_count++;
+        // 修改歌曲id
+        temp = newSong->next;
+        while (temp != NULL) {
+            temp->id++;
+            temp = temp->next;
+        }
+    }
     return 0;
 }
 
