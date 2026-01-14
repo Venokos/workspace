@@ -5,6 +5,7 @@
 
 typedef int ElemType;
 
+// 链表储存栈元素
 typedef struct stack {
     ElemType data;
     struct stack* next;

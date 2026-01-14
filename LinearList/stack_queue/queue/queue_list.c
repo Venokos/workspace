@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// 学校作业，不带头节点的链表方式实现队列
+
+
 // 链表结构体
 typedef struct QNode {
     int data;
