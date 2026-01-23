@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// 动态内存分配，建立循环队列
+
 typedef int Elemtype;
 
 #define MAX_SIZE 100
@@ -36,7 +38,7 @@ int isEmpty(Queue *q) {
 }
 
 int isFull(Queue *q) {
-    return (q->front == 0 && q->rear == MAX_SIZE);
+    return (q->rear + 1) % MAX_SIZE == q->front;
 }
 
 // 出队
@@ -47,25 +49,11 @@ int deQueue(Queue* q, Elemtype* e) {
     }
 
     *e = q->data[q->front];
-    q->front++;
+    q->front = (q->front + 1) % MAX_SIZE;
     return 0;
 }
 
-// 移动队列元素到队头
-void moveToFront(Queue* q) {
-    if (isEmpty(q)) {
-        printf("The queue is empty.\n");
-        return;
-    }
 
-    int step = q->front;
-    for (int i = 0; i < step; i++) {
-        q->data[i] = q->data[q->front + i]; 
-    }
-
-    q->front = 0;
-    q->rear = step;
-}
 
 // 入队
 int enQueue(Queue* q, Elemtype e) {
@@ -74,14 +62,8 @@ int enQueue(Queue* q, Elemtype e) {
         return -1;
     }
     else {
-        if (q->rear >= MAX_SIZE) {
-            moveToFront(q);
-            enQueue(q, e);
-        }
-        else {
-            q->data[q->rear] = e;
-            q->rear++;
-        }
+        q->data[q->rear] = e;
+        q->rear = (q->rear + 1) % MAX_SIZE;
         return 0;
     }
 }
@@ -97,6 +79,11 @@ int getFront(Queue* q, Elemtype* e) {
     return 0;
 }
 
+// 获取队列长度
+int getQueueSize(Queue* q) {
+    return (q->rear - q->front + MAX_SIZE) % MAX_SIZE;
+}
+
 // 释放内存
 void freeQueue(Queue* queue) {
     free(queue->data);
@@ -108,20 +95,29 @@ int main() {
     Queue* q = initQueue();
 
     enQueue(q, 10);
+    printf("Queue size: %d\n", getQueueSize(q));
     enQueue(q, 20);
+    printf("Queue size: %d\n", getQueueSize(q));
     enQueue(q, 40);
+    printf("Queue size: %d\n", getQueueSize(q));
 
     Elemtype e1, e2, e3, e4, e5;;
     deQueue(q, &e1);
+    printf("Queue size: %d\n", getQueueSize(q));
     deQueue(q, &e2);
+    printf("Queue size: %d\n", getQueueSize(q));
     getFront(q, &e3);
 
     enQueue(q, 30);
+    printf("Queue size: %d\n", getQueueSize(q));
     deQueue(q, &e4);
+    printf("Queue size: %d\n", getQueueSize(q));
     deQueue(q, &e5);
+    printf("Queue size: %d\n", getQueueSize(q));
     printf("%d %d %d %d %d\n", e1, e2, e3, e4, e5);
 
     deQueue(q, &e5);
+    printf("Queue size: %d\n", getQueueSize(q));
 
     freeQueue(q);
 
